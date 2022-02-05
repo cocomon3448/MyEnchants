@@ -1,0 +1,6 @@
+name: MyEnchants
+version: '${project.version}'
+main: com.github.cocomon3448.myenchants.MyEnchants
+api-version: 1.18
+authors: [ rammer3448 ]
+description: nothing just custom enchants
