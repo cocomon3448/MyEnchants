@@ -74,7 +74,7 @@ public class Homing extends Enchantment implements Listener {
     }
 
     public String getFormattedName(int level) {
-        return ChatColor.BOLD+""+ ChatColor.AQUA + this.getName() + " " + RomanNumber.toRoman(level);
+        return ChatColor.GRAY + this.getName() + " " + RomanNumber.toRoman(level);
     }
 
     @Override

@@ -1,18 +1,12 @@
 package com.github.cocomon3448.myenchants;
 
+import com.github.cocomon3448.myenchants.commands.ApplyCustomEnchantsCommand;
+import com.github.cocomon3448.myenchants.commands.CheakEnchantsCommand;
 import com.github.cocomon3448.myenchants.enchants.Homing;
 import com.github.cocomon3448.myenchants.merge.Anvil;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -42,9 +36,14 @@ public final class MyEnchants extends JavaPlugin implements Listener {
         for (Enchantment enchantment : custom_enchants){
             registerEnchantment(enchantment);
         }
+        //register events
         this.getServer().getPluginManager().registerEvents(new Anvil(),this);
         this.getServer().getPluginManager().registerEvents(homingEnchantments, this);
         this.getServer().getPluginManager().registerEvents(this, this);
+
+        //register commands
+        this.getCommand("cheakenc").setExecutor(new CheakEnchantsCommand());
+        this.getCommand("applyenc").setExecutor(new ApplyCustomEnchantsCommand());
     }
 
     @Override
@@ -96,59 +95,4 @@ public final class MyEnchants extends JavaPlugin implements Listener {
     public static MyEnchants getPlugin(){
         return PLUGIN;
     }
-
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e){
-        //Give the player a bow with the enchantment when they join
-        Player player = e.getPlayer();
-        ItemStack bow1 = new ItemStack(Material.BOW, 1);
-        ItemMeta m1 = bow1.getItemMeta();
-        ArrayList<String> lore1 = new ArrayList<>();
-        lore1.add(homingEnchantments.getFormattedName(1));
-        m1.setLore(lore1);
-        bow1.setItemMeta(m1);
-        bow1.addUnsafeEnchantment(homingEnchantments, 1);
-
-        ItemStack bow2 = new ItemStack(Material.BOW, 1);
-        ItemMeta m2 = bow2.getItemMeta();
-        ArrayList<String> lore2 = new ArrayList<>();
-        lore2.add(homingEnchantments.getFormattedName(2));
-        m2.setLore(lore2);
-        bow2.setItemMeta(m2);
-        bow2.addUnsafeEnchantment(homingEnchantments, 2);
-
-        ItemStack bow3 = new ItemStack(Material.BOW, 1);
-        ItemMeta m3 = bow3.getItemMeta();
-        ArrayList<String> lore3 = new ArrayList<>();
-        lore3.add(homingEnchantments.getFormattedName(3));
-        m3.setLore(lore3);
-        bow3.setItemMeta(m3);
-        bow3.addUnsafeEnchantment(homingEnchantments, 3);
-
-        ItemStack bow4 = new ItemStack(Material.BOW, 1);
-        ItemMeta m4 = bow4.getItemMeta();
-        ArrayList<String> lore4 = new ArrayList<>();
-        lore4.add(homingEnchantments.getFormattedName(4));
-        m4.setLore(lore4);
-        bow4.setItemMeta(m4);
-        bow4.addUnsafeEnchantment(homingEnchantments, 4);
-
-        ItemStack bow5 = new ItemStack(Material.BOW, 1);
-        ItemMeta m5 = bow5.getItemMeta();
-        ArrayList<String> lore5 = new ArrayList<>();
-        lore5.add(homingEnchantments.getFormattedName(5));
-        m5.setLore(lore5);
-        bow5.setItemMeta(m5);
-        bow5.addUnsafeEnchantment(homingEnchantments, 5);
-
-        World w = e.getPlayer().getWorld();
-        w.dropItemNaturally(player.getLocation(),bow1);
-        w.dropItemNaturally(player.getLocation(),bow2);
-        w.dropItemNaturally(player.getLocation(),bow3);
-        w.dropItemNaturally(player.getLocation(),bow4);
-        w.dropItemNaturally(player.getLocation(),bow5);
-
-    }
-
-
 }

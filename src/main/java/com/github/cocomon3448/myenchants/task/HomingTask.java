@@ -1,6 +1,7 @@
 package com.github.cocomon3448.myenchants.task;
 
 import org.bukkit.Effect;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

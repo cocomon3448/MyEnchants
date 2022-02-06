@@ -1,16 +1,16 @@
 package com.github.cocomon3448.myenchants.merge;
 
-import com.github.cocomon3448.myenchants.tools.RomanNumber;
-import org.bukkit.Material;
+
+import com.github.cocomon3448.myenchants.tools.MergedEnchants;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+
+import static com.github.cocomon3448.myenchants.MyEnchants.homingEnchantments;
 
 public class Anvil implements Listener {
 
@@ -28,29 +28,20 @@ public class Anvil implements Listener {
         if(!fItem.getType().equals(sItem.getType())) {
             return;
         }
-        System.out.println("1");
+
         ItemStack result = new ItemStack(fItem.getType(),1);
-        ArrayList<String> lores = new ArrayList<String>();
+        ArrayList<String> lores = new ArrayList<>();
 
-        if(fItem.getItemMeta().hasLore() && sItem.getItemMeta().hasLore()) {
-            int fHNo = 0;
-            int sHNo = 0;
-            if(fItem.getItemMeta().getLore().toString().contains("Homing")) {
-                String str = fItem.getItemMeta().getLore().toString().replace("[","").replace("]","");
-                String romanNo = str.split(" ")[1];
-                fHNo = RomanNumber.toInt(romanNo);
-            }
-            if(sItem.getItemMeta().getLore().toString().contains("Homing")) {
-                String str = sItem.getItemMeta().getLore().toString().replace("[","").replace("]","");
-                String romanNo = str.split(" ")[1];
-                sHNo = RomanNumber.toInt(romanNo);
-            }
+        if(fItem.getItemMeta().hasEnchant(homingEnchantments) && sItem.getItemMeta().hasEnchant(homingEnchantments)) {
+            int fHNo = fItem.getItemMeta().getEnchantLevel(homingEnchantments);
+            int sHNo = sItem.getItemMeta().getEnchantLevel(homingEnchantments);
+            int rHomNo = MergedEnchants.getLevel(fHNo,sHNo);
 
-            lores.add(fItem.getItemMeta().getLore().toString());
-            lores.add(sItem.getItemMeta().getLore().toString());
             ItemMeta mata = result.getItemMeta();
+            lores.add(homingEnchantments.getFormattedName(rHomNo));
             mata.setLore(lores);
             result.setItemMeta(mata);
+            result.addUnsafeEnchantment(homingEnchantments, rHomNo);
             System.out.println(fHNo+" "+sHNo);
             e.setResult(result);
         }
